@@ -1,0 +1,17 @@
+{
+    "name": "kareem-fouad/php-validator",
+    "description": "php validation (like laravel) using strategy design pattern",
+    "type": "library",
+    "authors": [
+        {
+            "name": "kareem-torky",
+            "email": "kareemmfouad.ece@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "PhpValidator\\Src\\": "src/"
+        }
+    }
+}
