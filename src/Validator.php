@@ -4,17 +4,25 @@ namespace PhpValidator\Src;
 
 class Validator 
 {
+    private $validationContext, $data, $rules;
     private $errors = []; 
 
     public static function make(array $data, array $rules)
     {
-        $validationContext = new ValidationContext;
-        $validator = new self;
+        $validator = new static();
+        $validator->validationContext = new ValidationContext;
+        $validator->data = $data;
+        $validator->rules = $rules;
+        $validator->performValidation();
 
+        return $validator;
+    }
 
-        foreach ($rules as $inputName => $inputRules) {
+    public function performValidation()
+    {
+        foreach ($this->rules as $inputName => $inputRules) {
             $inputRulesArr = explode("|", $inputRules);
-            $inputValue = $data[$inputName] ?? "";
+            $inputValue = $this->data[$inputName] ?? "";
 
             foreach ($inputRulesArr as $inputRule) {
                 $inputRuleParams = [];
@@ -27,19 +35,22 @@ class Validator
                     $inputRuleName = $inputRule;
                 }
 
-                $error = $validationContext->validate($inputName, $inputValue, $inputRuleName, $inputRuleParams);
+                $error = $this->validationContext->validate($inputName, $inputValue, $inputRuleName, $inputRuleParams);
                 if (! empty($error)) {
-                    $validator->errors[] = $error;
+                    $this->errors[] = $error;
                     break;
                 }
             }
         }
-
-        return $validator;
     }
 
     public function errors()
     {
         return $this->errors;
+    }
+
+    public function fails()
+    {
+        return ! empty($this->errors);
     }
 }

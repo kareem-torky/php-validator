@@ -7,13 +7,15 @@ use PhpValidator\Src\Validator;
 // Mimicing request data
 $data = [
     'name' => 'kareem fouad',
-    'age'  => -1,
+    'age'  => -12,
 ];
 
 // Testing validator class
 $validator = Validator::make($data, [
-    'name'  => 'required|str',
+    'name'  => 'required|str|min:20',
     'age'   => 'required|numeric|min:0',
 ]);
 
-print_r($validator->errors());
+if ($validator->fails()) {
+    print_r($validator->errors());
+}
