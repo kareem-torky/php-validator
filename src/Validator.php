@@ -17,7 +17,17 @@ class Validator
             $inputValue = $data[$inputName] ?? "";
 
             foreach ($inputRulesArr as $inputRule) {
-                $error = $validationContext->validate($inputName, $inputValue, $inputRule);
+                $inputRuleParams = [];
+
+                if (str_contains($inputRule, ":")) {
+                    $inputRuleArr = explode(":", $inputRule);
+                    $inputRuleName = $inputRuleArr[0];
+                    $inputRuleParams = explode(",", $inputRuleArr[1]);
+                } else {
+                    $inputRuleName = $inputRule;
+                }
+
+                $error = $validationContext->validate($inputName, $inputValue, $inputRuleName, $inputRuleParams);
                 if (! empty($error)) {
                     $validator->errors[] = $error;
                     break;

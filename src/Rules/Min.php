@@ -4,12 +4,12 @@ namespace PhpValidator\Src\Rules;
 
 use PhpValidator\Src\Interfaces\ValidationStrategy;
 
-class Numeric implements ValidationStrategy 
+class Min implements ValidationStrategy 
 {
     public function validate(string $name, $value, $params = [])
     {
-        if (! is_numeric($value)) {
-            return "$name must be a number";
+        if ($value < $params[0]) {
+            return "$name must be greater than or equal {$params[0]}";
         }
 
         return "";
