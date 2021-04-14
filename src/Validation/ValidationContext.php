@@ -1,6 +1,6 @@
 <?php 
 
-namespace PhpValidator\Src;
+namespace PhpValidator\Src\Validation;
 
 class ValidationContext 
 {
@@ -16,15 +16,6 @@ class ValidationContext
 
     public function getRuleClassName()
     {
-        /*
-            Ex: 
-            required --> Required 
-            in_array --> InArray
-        */
-        // TODO: using mapping instead of rule name conversion
-
-        $ruleNamespace = "PhpValidator\Src\Rules\\";
-        $ruleClassName = str_replace(" ", "", ucwords(str_replace("_", " ", $this->rule)));
-        $this->ruleClass = $ruleNamespace . $ruleClassName;
+        $this->ruleClass = ValidationRuleMapper::getRuleClassName($this->rule);
     }
 }

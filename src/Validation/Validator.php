@@ -1,6 +1,6 @@
 <?php 
 
-namespace PhpValidator\Src;
+namespace PhpValidator\Src\Validation;
 
 class Validator 
 {

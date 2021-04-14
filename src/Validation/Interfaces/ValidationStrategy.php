@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpValidator\Src\Interfaces;
+namespace PhpValidator\Src\Validation\Interfaces;
 
 interface ValidationStrategy 
 {

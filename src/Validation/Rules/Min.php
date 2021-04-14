@@ -1,8 +1,8 @@
 <?php 
 
-namespace PhpValidator\Src\Rules;
+namespace PhpValidator\Src\Validation\Rules;
 
-use PhpValidator\Src\Interfaces\ValidationStrategy;
+use PhpValidator\Src\Validation\Interfaces\ValidationStrategy;
 
 class Min implements ValidationStrategy 
 {

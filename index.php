@@ -2,20 +2,25 @@
 
 require_once __DIR__ . "/vendor/autoload.php";
 
-use PhpValidator\Src\Validator;
+use PhpValidator\Src\Validation\Validator;
+use PhpValidator\Src\Request;
 
-// Mimicing request data
+// Read request data
+$req = new Request;
+
 $data = [
-    'name' => 'kareem fouad',
-    'age'  => -12,
+    'name' => $req->post('name'),
+    'age'  => $req->post('age'),
+    'img'  => $req->files('img'),
 ];
 
 // Testing validator class
 $validator = Validator::make($data, [
-    'name'  => 'required|str|min:20',
+    'name'  => 'required|string|min:5',
     'age'   => 'required|numeric|min:0',
 ]);
 
 if ($validator->fails()) {
-    print_r($validator->errors());
+    header("Content-Type: application/json");
+    echo json_encode($validator->errors());
 }
