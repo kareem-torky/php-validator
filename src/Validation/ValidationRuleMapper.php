@@ -2,6 +2,9 @@
 
 namespace PhpValidator\Src\Validation;
 
+use PhpValidator\Src\Validation\Exceptions\RuleClassNotExist;
+use PhpValidator\Src\Validation\Exceptions\RuleNameNotExist;
+
 class ValidationRuleMapper 
 {
     private static $rulesMap = [
@@ -25,9 +28,17 @@ class ValidationRuleMapper
 
     public static function getRuleClassName($rule)
     {
-        $ruleNamespace = "PhpValidator\Src\Validation\Rules\\";
-        $ruleClass = self::$rulesMap[$rule];
+        if (! array_key_exists($rule, self::$rulesMap)) {
+            throw new RuleNameNotExist("Rule $rule doesn't exist");
+            return;
+        }
 
-        return $ruleNamespace . $ruleClass;
+        $ruleClass = "PhpValidator\Src\Validation\Rules\\" . self::$rulesMap[$rule];
+        if (! class_exists($ruleClass)) {
+            throw new RuleClassNotExist("Class $rule doesn't exist");
+            return;
+        }
+
+        return $ruleClass;
     }
 }

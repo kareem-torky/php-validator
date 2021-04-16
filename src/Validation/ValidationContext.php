@@ -2,6 +2,10 @@
 
 namespace PhpValidator\Src\Validation;
 
+use PhpValidator\Src\Validation\Exceptions\RuleClassNotExist;
+use PhpValidator\Src\Validation\Exceptions\RuleMissingParams;
+use PhpValidator\Src\Validation\Exceptions\RuleNameNotExist;
+
 class ValidationContext 
 {
     private $rule, $ruleClass;
@@ -11,11 +15,20 @@ class ValidationContext
         $this->rule = $rule;
         $this->getRuleClassName();
         $ruleObj = new $this->ruleClass;
-        return call_user_func_array([$ruleObj, 'validate'], [$name, $value, $params]);
+
+        try {
+            return call_user_func_array([$ruleObj, 'validate'], [$name, $value, $params]);
+        } catch (RuleMissingParams $e) {
+            die($e->getMessage());
+        }
     }
 
     public function getRuleClassName()
     {
-        $this->ruleClass = ValidationRuleMapper::getRuleClassName($this->rule);
+        try {
+            $this->ruleClass = ValidationRuleMapper::getRuleClassName($this->rule);
+        } catch (RuleNameNotExist|RuleClassNotExist $e) {
+            die($e->getMessage());
+        }
     }
 }

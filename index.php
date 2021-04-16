@@ -7,7 +7,7 @@ use PhpValidator\Src\Request;
 
 // Testing validator class
 $request = new Request;
-// die(print_r($request));
+
 $validator = Validator::make($request->all(), [
     'name'  => 'required|string|min:5',
     'age'   => 'required|numeric|min:0',
@@ -21,4 +21,5 @@ if ($validator->fails()) {
 
 // TODO: Errors bag and messages in separate classes
 // TODO: Add input aliases
+// TODO: Add exceptions
 // TODO: Add readme with class diagram
