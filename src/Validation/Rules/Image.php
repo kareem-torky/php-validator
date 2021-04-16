@@ -4,14 +4,14 @@ namespace PhpValidator\Src\Validation\Rules;
 
 use PhpValidator\Src\Validation\Interfaces\ValidationStrategy;
 
-class Required implements ValidationStrategy 
+class Image implements ValidationStrategy 
 {
     public function validate(string $name, $value, $params = [])
     {
-        if ((! is_array($value) and empty($value)) or (is_array($value) and empty($value['name']))) {
-            return "$name is required";
+        if (! str_starts_with($value['type'], "image/")) {
+            return "$name must be an image";
         }
-
+        
         return "";
     }
 }

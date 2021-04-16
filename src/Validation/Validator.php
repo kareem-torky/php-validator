@@ -20,9 +20,9 @@ class Validator
 
     public function performValidation()
     {
-        foreach ($this->rules as $inputName => $inputRules) {
+        foreach ($this->rules as $field => $inputRules) {
             $inputRulesArr = explode("|", $inputRules);
-            $inputValue = $this->data[$inputName] ?? "";
+            $inputValue = $this->data[$field] ?? "";
 
             foreach ($inputRulesArr as $inputRule) {
                 $inputRuleParams = [];
@@ -35,9 +35,9 @@ class Validator
                     $inputRuleName = $inputRule;
                 }
 
-                $error = $this->validationContext->validate($inputName, $inputValue, $inputRuleName, $inputRuleParams);
+                $error = $this->validationContext->validate($field, $inputValue, $inputRuleName, $inputRuleParams);
                 if (! empty($error)) {
-                    $this->errors[] = $error;
+                    $this->errors[$field] = $error;
                     break;
                 }
             }
@@ -47,6 +47,11 @@ class Validator
     public function errors()
     {
         return $this->errors;
+    }
+
+    public function passes()
+    {
+        return empty($this->errors);
     }
 
     public function fails()
